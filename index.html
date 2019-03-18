@@ -59,7 +59,7 @@ svg.append("svg:defs").selectAll("marker")
 function marker(color) {
   // build the arrow.
 
-  var cid = color.replace(" ","").replace(",","").replace("(","").replace(")","");
+  var cid = color.replace(", ","").replace(", ","").replace("(","").replace(")","");
   console.log(cid);
   svg.append("svg:defs").selectAll("marker")
     .data(["end"])      // Different link/path types can be defined here
@@ -79,7 +79,7 @@ function marker(color) {
     );
     
     return "url(#arrow" 
-    // +cid
+    +cid
     + ")";
   
 }
@@ -154,12 +154,8 @@ function marker(color) {
             d.source.y 
             + "A" + 
             dr + "," + dr + " 0 0,1 " + 
-            (d.target.x - offsetX)/2 + "," + 
-            (d.target.y - offsetY)/2
-            + "A" + 
-            dr + "," + dr + " 0 0,1 " + 
-            (d.target.x - offsetX)/2 + "," + 
-            (d.target.y - offsetY)/2;
+            (d.target.x - offsetX) + "," + 
+            (d.target.y - offsetY);
     });
     node
         .attr("transform", function(d) {
