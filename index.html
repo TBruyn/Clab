@@ -22,6 +22,83 @@ text {
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
+var graph = {							
+	"nodes": [						
+		{"id":	"Profit",					"group":	"Goal"},		
+		{"id":	"Longterm relationship",	"group":	"Goal"},		
+		{"id":	"Sustainability",			"group":	"Method"},		
+		{"id":	"Meet targets!",			"group":	"Goal"},		
+		{"id":	"Safety",					"group":	"Goal"},		
+		{"id":	"Rats, no!",				"group":	"Goal"},		
+		{"id":	"Induction cooking",		"group":	"Goal"},		
+		{"id":	"Insulation",				"group":	"Goal"},		
+		{"id":	"Green",					"group":	"Goal"},		
+		{"id":	"Moneys",					"group":	"Method"},		
+		{"id":	"Strategy DDH",				"group":	"Method"},		
+		{"id":	"Transition scheme",		"group":	"Method"},		
+		{"id":	"GAS FREE",					"group":	"Method"},		
+		{"id":	"Cooking traditional",		"group":	"Method"},		
+		{"id":	"Goals Municipality",		"group":	"Player"},		
+		{"id":	"DDH goals",				"group":	"Player"},		
+		{"id":	"Goals locals",				"group":	"Player"},		
+		{"id":	"Key people",				"group":	"Player"},		
+		{"id":	"Buurtteam",				"group":	"Player"},		
+		{"id":	"Particuliere verhuurders",	"group":	"Player"},		
+		{"id":	"VvE",						"group":	"Player"},		
+		{"id":	"Woningbouwcorporatie",		"group":	"Player"},		
+		{"id":	"Government",				"group":	"Player"}		
+	],						
+	"links": [											
+		{"source":	"Woningbouwcorporatie",		"target":	"VvE",						"value":	1,		"coloring": 0},
+		{"source":	"Woningbouwcorporatie",		"target":	"Goals locals",				"value":	1,		"coloring": 5},
+		{"source":	"Woningbouwcorporatie",		"target":	"Induction cooking",		"value":	0.5,	"coloring": 5},
+		{"source":	"Woningbouwcorporatie",		"target":	"Insulation",				"value":	0.5,	"coloring": 5},
+		{"source":	"Particuliere verhuurders",	"target":	"VvE",						"value":	1,		"coloring": 0},
+		{"source":	"VvE",						"target":	"Goals locals",				"value":	1,		"coloring": 5},
+		{"source":	"VvE",						"target":	"Particuliere verhuurders",	"value":	1,		"coloring": 0},
+		{"source":	"Goals locals",				"target":	"Safety",					"value":	1,		"coloring": 10},
+		{"source":	"Goals locals",				"target":	"Rats, no!",				"value":	1,		"coloring": 10},
+		{"source":	"Goals locals",				"target":	"Cooking traditional",		"value":	1,		"coloring": 10},
+		{"source":	"Goals locals",				"target":	"Green",					"value":	1,		"coloring": 10},
+		{"source":	"Key people",				"target":	"Induction cooking",		"value":	1,		"coloring": 5},
+		{"source":	"Key people",				"target":	"Buurtteam",				"value":	0.5,	"coloring": 0},
+		{"source":	"Buurtteam",				"target":	"Key people",				"value":	0.5,	"coloring": 0},
+		{"source":	"Buurtteam",				"target":	"Green",					"value":	1,		"coloring": 10},
+		{"source":	"Buurtteam",				"target":	"Goals locals",				"value":	1,		"coloring": 10},
+		{"source":	"DDH goals",				"target":	"Transition scheme",		"value":	1,		"coloring": 5},
+		{"source":	"Goals Municipality",		"target":	"Meet targets!",			"value":	1,		"coloring": 10},
+		{"source":	"Goals Municipality",		"target":	"Insulation",				"value":	1,		"coloring": 10},
+		{"source":	"Goals Municipality",		"target":	"Sustainability",			"value":	1,		"coloring": 10},
+		{"source":	"Goals Municipality",		"target":	"Moneys",					"value":	1,		"coloring": 10},
+		{"source":	"Goals Municipality",		"target":	"DDH goals",				"value":	1,		"coloring": 5},
+		{"source":	"Government",				"target":	"Goals Municipality",		"value":	0.5,		"coloring": 5},
+		{"source":	"Government",				"target":	"Moneys",					"value":	0.5,		"coloring": 5},
+		{"source":	"Profit",					"target":	"Woningbouwcorporatie",		"value":	1,		"coloring": 10},
+		{"source":	"Meet targets!",			"target":	"GAS FREE",					"value":	1,		"coloring": 10},
+		{"source":	"Green",					"target":	"Sustainability",			"value":	0.5,	"coloring": 10},
+		{"source":	"Insulation",				"target":	"Sustainability",			"value":	3,		"coloring": 10},
+		{"source":	"Induction cooking",		"target":	"Sustainability",			"value":	0.5,	"coloring": 10},
+		{"source":	"Induction cooking",		"target":	"Cooking traditional",		"value":	0.1,	"coloring": 10},
+		{"source":	"Rats, no!",				"target":	"Moneys",					"value":	0.1,	"coloring": 10},
+		{"source":	"Safety",					"target":	"Moneys",					"value":	0.1,	"coloring": 10},
+		{"source":	"Longterm relationship",	"target":	"Goals locals",				"value":	1,		"coloring": 10},
+		{"source":	"Longterm relationship",	"target":	"DDH goals",				"value":	1,		"coloring": 10},
+		{"source":	"Moneys",					"target":	"DDH goals",				"value":	1,		"coloring": 10},
+		{"source":	"Moneys",					"target":	"Woningbouwcorporatie",		"value":	1,		"coloring": 10},
+		{"source":	"Moneys",					"target":	"Particuliere verhuurders",	"value":	1,		"coloring": 10},
+		{"source":	"Moneys",					"target":	"Goals Municipality",		"value":	0.1,	"coloring": 10},
+		{"source":	"Strategy DDH",				"target":	"Goals locals",				"value":	1,		"coloring": 10},
+		{"source":	"GAS FREE",					"target":	"Sustainability",			"value":	1,		"coloring": -10},
+		{"source":	"Transition scheme",		"target":	"DDH goals",				"value":	0.1,	"coloring": 0},
+		{"source":	"Transition scheme",		"target":	"Buurtteam",				"value":	0.1,	"coloring": 10},
+		{"source":	"Transition scheme",		"target":	"Induction cooking",		"value":	1,		"coloring": 10},
+		{"source":	"Transition scheme",		"target":	"Goals locals",				"value":	0.1,	"coloring": 10},
+		{"source":	"Transition scheme",		"target":	"Green",					"value":	1,		"coloring": 10},
+		{"source":	"Cooking traditional",		"target":	"Induction cooking",		"value":	0.1,	"coloring": 10}
+	]						
+}	
+
+
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
@@ -37,14 +114,13 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody().strength(-1500))
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-d3.json("testdata.json", function(error, graph) {
-  if (error) throw error;
-
-  // build the arrow.
-svg.append("svg:defs").selectAll("marker")
+// build the arrow.
+function marker(color) {
+  var cid = color.replace(", ","").replace(", ","").replace("(","").replace(")","");
+  svg.append("svg:defs").selectAll("marker")
     .data(["end"])      // Different link/path types can be defined here
   .enter().append("svg:marker")    // This section adds in the arrows
-    .attr("id", "arrow")
+  .attr("id", "arrow" + cid)
     .attr("viewBox", "0 -5 10 10")
     .attr("refX", 15)
     .attr("refY", -1.5)
@@ -52,79 +128,84 @@ svg.append("svg:defs").selectAll("marker")
     .attr("markerHeight", 5)
     .attr("orient", "auto")
   .append("svg:path")
-    .attr("d", "M0,-5L10,0L0,5");
-
-  var link = svg.append("g")
-      .attr("class", "links")
-    .selectAll("line")
-    .data(graph.links)
-    .enter().append("path")
-    .style("stroke-width", function(d) { return 8; })
-    .style("stroke", function(d) { return linkcolor(d.coloring); })
-    .style("fill", "none")
-    .attr('marker-end', function(d) {return "url(#arrow)"});//attach the arrow from defs
-
-  var node = svg.append("g")
-      .attr("class", "nodes")
-    .selectAll("g")
-    .data(graph.nodes)
-    .enter().append("g")
+    .attr("d", "M0,-5L10,0L0,5")
+    .style("fill",
+    color
+    );
     
-  var circles = node.append("circle")
-      .attr("r", 60)
-      .attr("fill", function(d) { return nodecolor(d.group); })
-      .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended));
+    return "url(#arrow" 
+    +cid
+    + ")";
+}
 
-  var lables = node.append("text")
-      .attr("text-anchor", "middle")
-      .text(function(d) {
-        return d.id;
+
+var link = svg.append("g")
+    .attr("class", "links")
+  .selectAll("line")
+  .data(graph.links)
+  .enter().append("path")
+  .style("stroke-width", function(d) { return 8; })
+  .style("stroke", function(d) { return linkcolor(d.coloring); })
+  .style("fill", "none")
+  .each(function(d) {
+          d3.select(this).style("stroke", linkcolor(d.coloring))
+                          .attr("marker-end", marker(linkcolor(d.coloring)));
+      });
+
+var node = svg.append("g")
+    .attr("class", "nodes")
+  .selectAll("g")
+  .data(graph.nodes)
+  .enter().append("g")
+  
+var circles = node.append("circle")
+    .attr("r", 60)
+    .attr("fill", function(d) { return nodecolor(d.group); })
+    .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+var lables = node.append("text")
+    .attr("text-anchor", "middle")
+    .text(function(d) {
+      return d.id;
+    })
+    .attr('y', 3);
+
+node.append("title")
+    .text(function(d) { return d.id; });
+
+simulation
+    .nodes(graph.nodes)
+    .on("tick", ticked);
+
+simulation.force("link")
+    .links(graph.links);
+
+function ticked() {
+  link
+      .attr("d", function(d) {
+      var dx = d.target.x - d.source.x,
+          dy = d.target.y - d.source.y,
+          dr = Math.sqrt(dx * dx + dy * dy);
+
+          offsetX = (dx * 30) / dr;
+          offsetY = (dy * 30) / dr;
+
+      return "M" + 
+          d.source.x + "," + 
+          d.source.y 
+          + "A" + 
+          dr + "," + dr + " 0 0,1 " + 
+          (d.target.x - offsetX) + "," + 
+          (d.target.y - offsetY);
+  });
+  node
+      .attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";
       })
-      .attr('y', 3);
-
-  node.append("title")
-      .text(function(d) { return d.id; });
-
-  simulation
-      .nodes(graph.nodes)
-      .on("tick", ticked);
-
-  simulation.force("link")
-      .links(graph.links);
-
-  function ticked() {
-    link
-        // .attr("x1", function(d) { return d.source.x; })
-        // .attr("y1", function(d) { return d.source.y; })
-        // .attr("x2", function(d) { return d.target.x; })
-        // .attr("y2", function(d) { return d.target.y; })
-        // .attr( "d", function(d) {return "M" + d.ssource.x + "," + d.source.y + ", " + d.target.x + "," + d.target.y});
-        .attr("d", function(d) {
-        var dx = d.target.x - d.source.x,
-            dy = d.target.y - d.source.y,
-            dr = Math.sqrt(dx * dx + dy * dy);
-
-            offsetX = (dx * 30) / dr;
-            offsetY = (dy * 30) / dr;
-
-            // offsetX = (dx * d.target.r) / dr;
-            // offsetY = (dy * d.target.r) / dr;
-        return "M" + 
-            d.source.x + "," + 
-            d.source.y + "A" + 
-            dr + "," + dr + " 0 0,1 " + 
-            (d.target.x - offsetX) + "," + 
-            (d.target.y - offsetY);
-    });
-    node
-        .attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        })
-  }
-});
+}
 
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
