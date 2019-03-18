@@ -61,6 +61,7 @@ svg.append("svg:defs").selectAll("marker")
     .enter().append("path")
     .style("stroke-width", function(d) { return 8; })
     .style("stroke", function(d) { return linkcolor(d.coloring); })
+    .style("fill", "none")
     .attr('marker-end', function(d) {return "url(#arrow)"});//attach the arrow from defs
 
   var node = svg.append("g")
