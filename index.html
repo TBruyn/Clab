@@ -52,7 +52,38 @@ svg.append("svg:defs").selectAll("marker")
     .attr("markerHeight", 5)
     .attr("orient", "auto")
   .append("svg:path")
-    .attr("d", "M0,-5L10,0L0,5");
+    .attr("d", "M0,-5L10,0L0,5")
+    .style("fill","grey")
+    .style("opacity", 0.8);
+
+function marker(color) {
+  // build the arrow.
+
+  var cid = color.replace(" ","").replace(",","").replace("(","").replace(")","");
+  console.log(cid);
+  svg.append("svg:defs").selectAll("marker")
+    .data(["end"])      // Different link/path types can be defined here
+  .enter().append("svg:marker")    // This section adds in the arrows
+  .attr("id", "arrow" + cid)
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 15)
+    .attr("refY", -1.5)
+    .attr("markerWidth", 5)
+    .attr("markerHeight", 5)
+    .attr("orient", "auto")
+  .append("svg:path")
+    .attr("d", "M0,-5L10,0L0,5")
+    .style("fill", 
+    "rgb(0, 128, 0)"
+    // color
+    );
+    
+    return "url(#arrow" 
+    // +cid
+    + ")";
+  
+}
+
 
   var link = svg.append("g")
       .attr("class", "links")
@@ -62,7 +93,13 @@ svg.append("svg:defs").selectAll("marker")
     .style("stroke-width", function(d) { return 8; })
     .style("stroke", function(d) { return linkcolor(d.coloring); })
     .style("fill", "none")
-    .attr('marker-end', function(d) {return "url(#arrow)"});//attach the arrow from defs
+    .each(function(d) {
+            var color = linkcolor(d.coloring);
+            console.log(linkcolor(d.coloring));
+            d3.select(this).style("stroke", color)
+                           .attr("marker-end", marker(color));
+        });
+    // .attr('marker-end', function(d) {return "url(#arrow)"});//attach the arrow from defs
 
   var node = svg.append("g")
       .attr("class", "nodes")
@@ -114,10 +151,15 @@ svg.append("svg:defs").selectAll("marker")
             // offsetY = (dy * d.target.r) / dr;
         return "M" + 
             d.source.x + "," + 
-            d.source.y + "A" + 
+            d.source.y 
+            + "A" + 
             dr + "," + dr + " 0 0,1 " + 
-            (d.target.x - offsetX) + "," + 
-            (d.target.y - offsetY);
+            (d.target.x - offsetX)/2 + "," + 
+            (d.target.y - offsetY)/2
+            + "A" + 
+            dr + "," + dr + " 0 0,1 " + 
+            (d.target.x - offsetX)/2 + "," + 
+            (d.target.y - offsetY)/2;
     });
     node
         .attr("transform", function(d) {
