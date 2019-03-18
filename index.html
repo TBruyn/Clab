@@ -41,20 +41,20 @@ d3.json("testdata.json", function(error, graph) {
   if (error) throw error;
 
   // build the arrow.
-svg.append("svg:defs").selectAll("marker")
-    .data(["end"])      // Different link/path types can be defined here
-  .enter().append("svg:marker")    // This section adds in the arrows
-    .attr("id", "arrow")
-    .attr("viewBox", "0 -5 10 10")
-    .attr("refX", 15)
-    .attr("refY", -1.5)
-    .attr("markerWidth", 5)
-    .attr("markerHeight", 5)
-    .attr("orient", "auto")
-  .append("svg:path")
-    .attr("d", "M0,-5L10,0L0,5")
-    .style("fill","grey")
-    .style("opacity", 0.8);
+// svg.append("svg:defs").selectAll("marker")
+//     .data(["end"])      // Different link/path types can be defined here
+//   .enter().append("svg:marker")    // This section adds in the arrows
+//     .attr("id", "arrow")
+//     .attr("viewBox", "0 -5 10 10")
+//     .attr("refX", 15)
+//     .attr("refY", -1.5)
+//     .attr("markerWidth", 5)
+//     .attr("markerHeight", 5)
+//     .attr("orient", "auto")
+//   .append("svg:path")
+//     .attr("d", "M0,-5L10,0L0,5")
+//     .style("fill","grey")
+//     .style("opacity", 0.8);
 
 function marker(color) {
   // build the arrow.
@@ -74,8 +74,8 @@ function marker(color) {
   .append("svg:path")
     .attr("d", "M0,-5L10,0L0,5")
     .style("fill", 
-    "rgb(0, 128, 0)"
-    // color
+    // "rgb(0, 128, 0)"
+    color
     );
     
     return "url(#arrow" 
