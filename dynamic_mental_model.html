@@ -215,9 +215,9 @@ function ticked() {
   node
       .attr("transform", function(d) {
         return "translate(" 
-            +  Math.max(radius, Math.min(width - radius, d.x)) 
+            + d.x 
            + "," 
-            + Math.max(radius, Math.min(height - radius, d.y)) 
+            + d.y 
           + ")";
       })
 }
