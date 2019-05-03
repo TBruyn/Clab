@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+text {
+  font-family: sans-serif;
+  font-size: 15px;
+}
+
+</style>
+<svg width="2000" height="1500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+// {
+//  "nodes" : [
+//      {"id": ... , "group": ...},
+//      ...
+//      ],
+// "links": [											
+//      {"source":	"..." , "target": "..." , "value":	... , "coloring": ...},
+//      ...
+//      ]
+//}
+var graph = {							
+  "nodes":[
+{"id":"2040 NL gasfree","group":"Blue"},
+{"id":"2030 DH gasfree","group":"Blue"},
+{"id":"Dependent on municipality","group":"Blue"},
+{"id":"Noble goals","group":"Purple"},
+{"id":"Brave in their choices","group":"Purple"},
+{"id":"DDH has endurance","group":"Purple"},
+{"id":"DDH creates consistency","group":"Purple"},
+{"id":"Contact with everyone","group":"Purple"},
+{"id":"Upper class background","group":"Green"},
+{"id":"Gap with target group","group":"Green"},
+{"id":"Dislike induction cooking","group":"Green"},
+{"id":"Non-tech mindset","group":"Green"},
+{"id":"Role within landscape","group":"Orange"},
+{"id":"Dont know technologies","group":"Orange"},
+{"id":"We must show municipality our value","group":"Pink"},
+{"id":"Focus on results","group":"Pink"},
+{"id":"Stick to the plan","group":"Pink"},
+{"id":"We focus on getting everyone on board","group":"Pink"},
+{"id":"Woningbouwcorporaties only want profit","group":"Pink"},
+{"id":"Induction cooking is the most important step towards gas free","group":"Pink"},
+{"id":"Bewoners zijn aan het stuur","group":"Pink"},
+{"id":"Energy transition needs to help everyone","group":"Pink"},
+{"id":"Koningsplein is gezellig","group":"Pink"},
+{"id":"Moerwijk and Molenwijk are hard neighbourhoods","group":"Pink"},
+{"id":"Hard to make locals see the goal","group":"Pink"},
+{"id":"Stubborn","group":"Pink"},
+{"id":"We must focus on poor people","group":"Pink"}
+],
+"links": [
+{"source":"2040 NL gasfree","target":"2030 DH gasfree","value":1,"coloring":10},
+{"source":"2040 NL gasfree","target":"Noble goals","value":1,"coloring":10},
+{"source":"2030 DH gasfree","target":"Noble goals","value":1,"coloring":10},
+{"source":"Noble goals","target":"Dependent on municipality","value":1,"coloring":10},
+{"source":"Noble goals","target":"Brave in their choices","value":1,"coloring":10},
+{"source":"Noble goals","target":"Energy transition needs to help everyone","value":1,"coloring":10},
+{"source":"Dependent on municipality","target":"2030 DH gasfree","value":1,"coloring":10},
+{"source":"Dependent on municipality","target":"DDH has endurance","value":1,"coloring":10},
+{"source":"Dependent on municipality","target":"We must show municipality our value","value":1,"coloring":10},
+{"source":"We must show municipality our value","target":"Focus on results","value":1,"coloring":10},
+{"source":"Focus on results","target":"Stick to the plan","value":1,"coloring":10},
+{"source":"Stick to the plan","target":"We focus on getting everyone on board","value":1,"coloring":10},
+{"source":"We focus on getting everyone on board","target":"Stick to the plan","value":1,"coloring":10},
+{"source":"DDH has endurance","target":"Stick to the plan","value":1,"coloring":10},
+{"source":"DDH has endurance","target":"DDH creates consistency","value":1,"coloring":10},
+{"source":"DDH has endurance","target":"Role within landscape","value":1,"coloring":10},
+{"source":"We focus on getting everyone on board","target":"Contact with everyone","value":1,"coloring":10},
+{"source":"We focus on getting everyone on board","target":"Woningbouwcorporaties only want profit","value":1,"coloring":10},
+{"source":"We focus on getting everyone on board","target":"Induction cooking is the most important step towards gas free","value":1,"coloring":10},
+{"source":"Induction cooking is the most important step towards gas free","target":"Dont know technologies","value":1,"coloring":10},
+{"source":"Induction cooking is the most important step towards gas free","target":"We focus on getting everyone on board","value":1,"coloring":10},
+{"source":"Dont know technologies","target":"Induction cooking is the most important step towards gas free","value":1,"coloring":10},
+{"source":"Dont know technologies","target":"Non-tech mindset","value":1,"coloring":10},
+{"source":"Non-tech mindset","target":"Dont know technologies","value":1,"coloring":10},
+{"source":"Role within landscape","target":"Contact with everyone","value":1,"coloring":10},
+{"source":"Dislike induction cooking","target":"Non-tech mindset","value":1,"coloring":10},
+{"source":"We must focus on poor people","target":"Dislike induction cooking","value":1,"coloring":10},
+{"source":"We must focus on poor people","target":"Upper class background","value":1,"coloring":10},
+{"source":"We must focus on poor people","target":"Gap with target group","value":1,"coloring":10},
+{"source":"Gap with target group","target":"Hard to make locals see the goal","value":1,"coloring":10},
+{"source":"Hard to make locals see the goal","target":"Gap with target group","value":1,"coloring":10},
+{"source":"Hard to make locals see the goal","target":"Bewoners zijn aan het stuur","value":1,"coloring":10},
+{"source":"Upper class background","target":"Gap with target group","value":1,"coloring":10},
+{"source":"Upper class background","target":"Koningsplein is gezellig","value":1,"coloring":10},
+{"source":"Upper class background","target":"Moerwijk and Molenwijk are hard neighbourhoods","value":1,"coloring":10},
+{"source":"Bewoners zijn aan het stuur","target":"Hard to make locals see the goal","value":1,"coloring":10},
+{"source":"Energy transition needs to help everyone","target":"Bewoners zijn aan het stuur","value":1,"coloring":10},
+{"source":"Energy transition needs to help everyone","target":"Brave in their choices","value":1,"coloring":10},
+{"source":"Brave in their choices","target":"We must focus on poor people","value":1,"coloring":10}
+]				
+}	
+
+
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height"),
+    radius = 60;
+
+var nodecolor = d3.scaleOrdinal(d3.schemeCategory20);
+
+var linkcolor = d3.scaleLinear()
+    .domain([-10, 0, 10])
+    .range(["red", "grey", "green"]);
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink()
+                    .id(function(d) { return d.id; })
+                    .distance(200))
+    .force("charge", d3.forceManyBody().strength(-1500))
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+// build the arrow.
+function marker(color) {
+  var cid = color.replace(", ","").replace(", ","").replace("(","").replace(")","");
+  svg.append("svg:defs").selectAll("marker")
+    .data(["end"])      // Different link/path types can be defined here
+  .enter().append("svg:marker")    // This section adds in the arrows
+  .attr("id", "arrow" + cid)
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 15)
+    .attr("refY", -1.5)
+    .attr("markerWidth", 5)
+    .attr("markerHeight", 5)
+    .attr("orient", "auto")
+  .append("svg:path")
+    .attr("d", "M0,-5L10,0L0,5")
+    .style("fill",
+    color
+    );
+    
+    return "url(#arrow" 
+    +cid
+    + ")";
+}
+
+
+var link = svg.append("g")
+    .attr("class", "links")
+  .selectAll("line")
+  .data(graph.links)
+  .enter().append("path")
+  .style("stroke-width", function(d) { return 8; })
+  .style("stroke", function(d) { return linkcolor(d.coloring); })
+  .style("fill", "none")
+  .each(function(d) {
+          d3.select(this).style("stroke", linkcolor(d.coloring))
+                          .attr("marker-end", marker(linkcolor(d.coloring)));
+      });
+
+var node = svg.append("g")
+    .attr("class", "nodes")
+  .selectAll("g")
+  .data(graph.nodes)
+  .enter().append("g")
+  
+var circles = node.append("circle")
+    .attr("r", radius)
+    .attr("fill", function(d) { return nodecolor(d.group); })
+    .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+var lables = node.append("text")
+    .attr("text-anchor", "middle")
+    .text(function(d) {
+      return d.id;
+    })
+    .attr('y', 3);
+
+node.append("title")
+    .text(function(d) { return d.id; });
+
+simulation
+    .nodes(graph.nodes)
+    .on("tick", ticked);
+
+simulation.force("link")
+    .links(graph.links);
+
+function ticked() {
+  link
+      .attr("d", function(d) {
+      var dx = d.target.x - d.source.x,
+          dy = d.target.y - d.source.y,
+          dr = Math.sqrt(dx * dx + dy * dy);
+
+          offsetX = (dx * 30) / dr;
+          offsetY = (dy * 30) / dr;
+
+      return "M" + 
+          d.source.x + "," + 
+          d.source.y 
+          + "A" + 
+          dr + "," + dr + " 0 0,1 " + 
+          (d.target.x - offsetX) + "," + 
+          (d.target.y - offsetY);
+  });
+  node
+      .attr("transform", function(d) {
+        return "translate(" 
+            +  Math.max(radius, Math.min(width - radius, d.x)) 
+           + "," 
+            + Math.max(radius, Math.min(height - radius, d.y)) 
+          + ")";
+      })
+}
+
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+
+</script>
